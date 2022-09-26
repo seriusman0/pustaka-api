@@ -23,6 +23,8 @@ func main() {
 
 	db.AutoMigrate(&book.Book{})
 
+  bookRepository := book.NewRepository(db)
+
 	// book := book.Book{}
 	// book.Title = "Manusia Harimau"
 	// book.Price = 50000
@@ -37,22 +39,22 @@ func main() {
 	// fmt.Println("====================")
 	// }
 
-  var book book.Book
+  // var book book.Book
 
   // ==== Get ====
-  err = db.Where("id = ? ", 1).First(&book).Error
-  if err != nil {
-      fmt.Println("====================")
-      fmt.Println("Error Get Book")
-      fmt.Println("====================")
-  }
+  // err = db.Where("id = ? ", 1).First(&book).Error
+  // if err != nil {
+      // fmt.Println("====================")
+      // fmt.Println("Error Get Book")
+      // fmt.Println("====================")
+  // }
 
   // ==== Delete ====
-  err = db.Delete(&book).Error
-  if err != nil {
-      fmt.Println("====================")
-      fmt.Println("Error Deleting Book")
-      fmt.Println("====================")
+  // err = db.Delete(&book).Error
+  // if err != nil {
+    // fmt.Println("====================")
+    // fmt.Println("Error Deleting Book")
+    // fmt.Println("====================")
   }
 
   // ==== Update ====
@@ -75,4 +77,4 @@ func main() {
 	router.Run(":8889")
 }
 
-//  01:50:30 - --:--:-- Repository layer
+//  01:50:30 - 02:01:00 Insterface
