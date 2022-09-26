@@ -32,47 +32,6 @@ func main() {
     fmt.Println("Title : ", book.Title)
   }
 
-	// book := book.Book{}
-	// book.Title = "Manusia Harimau"
-	// book.Price = 50000
-	// book.Discount = 15
-	// book.Rating = 4
-	// book.Description = "Cerita yang tidak masuk akal, namun diterima oleh rakyat Indonesia"
-
-	// err = db.Create(&book).Error
-	// if err != nil {
-  // fmt.Println("====================")
-  // fmt.Println("Error Createing Book")
-	// fmt.Println("====================")
-	// }
-
-  // var book book.Book
-
-  // ==== Get ====
-  // err = db.Where("id = ? ", 1).First(&book).Error
-  // if err != nil {
-      // fmt.Println("====================")
-      // fmt.Println("Error Get Book")
-      // fmt.Println("====================")
-  // }
-
-  // ==== Delete ====
-  // err = db.Delete(&book).Error
-  // if err != nil {
-    // fmt.Println("====================")
-    // fmt.Println("Error Deleting Book")
-    // fmt.Println("====================")
-  // }
-
-  // ==== Update ====
-  // book.Title = "Man Tiger (2)"
-  // err = db.Save(&book).Error
-  // if err != nil {
-      // fmt.Println("====================")
-      // fmt.Println("Error Updating Book")
-      // fmt.Println("====================")
-  // }
-
 	v1 := router.Group("/v1")
 
 	v1.GET("/", handler.RootHandler)
