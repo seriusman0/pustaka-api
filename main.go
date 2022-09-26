@@ -23,7 +23,14 @@ func main() {
 
 	db.AutoMigrate(&book.Book{})
 
+
   bookRepository := book.NewRepository(db)
+
+  books, err := bookRepository.FindAll()
+
+  for _, book := range books {
+    fmt.Println("Title : ", book.Title)
+  }
 
 	// book := book.Book{}
 	// book.Title = "Manusia Harimau"
@@ -55,7 +62,7 @@ func main() {
     // fmt.Println("====================")
     // fmt.Println("Error Deleting Book")
     // fmt.Println("====================")
-  }
+  // }
 
   // ==== Update ====
   // book.Title = "Man Tiger (2)"
