@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"pustaka-api/book"
 	"pustaka-api/handler"
@@ -23,14 +22,15 @@ func main() {
 
 	db.AutoMigrate(&book.Book{})
 
-
   bookRepository := book.NewRepository(db)
+  bookService := book.NewService(bookRepository)
 
-  books, err := bookRepository.FindAll()
-
-  for _, book := range books {
-    fmt.Println("Title : ", book.Title)
+  bookRequest := book.BookRequest{
+    Title: "Gundam",
+    Price: "200000",
   }
+
+  bookService.Create(bookRequest)
 
 	v1 := router.Group("/v1")
 
@@ -40,7 +40,8 @@ func main() {
 	v1.GET("/query", handler.QueryHandler)
 	v1.POST("/books", handler.PostBookHandler)
 
-	router.Run(":8889")
+	router.Run(":8890")
 }
 
-//  01:50:30 - 02:01:00 Insterface
+//  02:20:39 - --:--:-- Pelajari ulang Layer Service
+
