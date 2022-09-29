@@ -22,24 +22,35 @@ func main() {
 
 	db.AutoMigrate(&book.Book{})
 
-  bookRepository := book.NewRepository(db)
-  bookService := book.NewService(bookRepository)
-  bookHandler := handler.NewBookHandler(bookService)
+	bookRepository := book.NewRepository(db)
+	bookService := book.NewService(bookRepository)
+	bookHandler := handler.NewBookHandler(bookService)
 
-  bookRequest := book.BookRequest{
-    Title: "Gundam",
-    Price: "200000",
-  }
+	bookRequest := book.BookRequest{
+		Title: "Gundam",
+		Price: "200000",
+	}
 
-  bookService.Create(bookRequest)
+	bookService.Create(bookRequest)
 
 	v1 := router.Group("/v1")
 
 	v1.GET("/books", bookHandler.GetBooks)
-	v1.POST("/books", bookHandler.PostBooksHandler)
+	v1.GET("/books/:id", bookHandler.GetBook)
+	v1.POST("/books", bookHandler.CreateBook)
+	v1.PUT("/books/:id", bookHandler.UpdateBook)
+	v1.DELETE("/books/:id", bookHandler.DeleteBook)
 
 	router.Run(":8888")
+
+  //main
+  //handler
+  //service
+  //repository
+  //db
+  //mysql
+
 }
 
-//  02:47:02 - --:--:-- Perbaiki service.go untuk memetakan book
+//  02:53:24 - --:--:-- Perbaiki service.go untuk memetakan book
 
