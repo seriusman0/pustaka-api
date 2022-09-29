@@ -24,6 +24,7 @@ func main() {
 
   bookRepository := book.NewRepository(db)
   bookService := book.NewService(bookRepository)
+  bookHandler := handler.NewBookHandler(bookService)
 
   bookRequest := book.BookRequest{
     Title: "Gundam",
@@ -34,14 +35,11 @@ func main() {
 
 	v1 := router.Group("/v1")
 
-	v1.GET("/", handler.RootHandler)
-	v1.GET("/hello", handler.HelloHandler)
-	v1.GET("/books/:id/:title", handler.BooksHandler)
-	v1.GET("/query", handler.QueryHandler)
-	v1.POST("/books", handler.PostBookHandler)
+	v1.GET("/books", bookHandler.GetBooks)
+	v1.POST("/books", bookHandler.PostBooksHandler)
 
-	router.Run(":8890")
+	router.Run(":8888")
 }
 
-//  02:20:39 - --:--:-- Pelajari ulang Layer Service
+//  02:47:02 - --:--:-- Perbaiki service.go untuk memetakan book
 

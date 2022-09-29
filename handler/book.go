@@ -8,43 +8,32 @@ import (
     "fmt"
 )
 
-func RootHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"name": "Seriusman Waruwu",
-		"bio":  "A Software engineer",
-	})
+type bookHandler struct {
+    bookService book.Service
 }
 
-func HelloHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"title":    "Hello",
-		"subtitle": "Saya mau belajar Golang",
-	})
+func NewBookHandler(bookService book.Service) *bookHandler {
+  return &bookHandler{bookService}
 }
 
-func BooksHandler(c *gin.Context) {
-	id := c.Param("id")
-	title := c.Param("title")
+func (h *bookHandler) GetBooks (c *gin.Context) {
+  books, err := h.bookService.FindAll()
+  if err != nil {
+    c.JSON(http.StatusBadRequest, gin.H{
+      "data" : err,
+    })
+    return
+  }
 
-	c.JSON(http.StatusOK, gin.H{
-		"id": id, "title" : title,
-	})
+  c.JSON(http.StatusOK, gin.H{
+    "data" : books,
+  })
 }
 
-func QueryHandler(c *gin.Context) {
-	price := c.Query("price")
-	title := c.Query("title")
+func (h *bookHandler) PostBooksHandler(c *gin.Context) {
+  var bookRequest book.BookRequest
 
-	c.JSON(http.StatusOK, gin.H{
-		"title": title,
-		"price": price,
-	})
-}
-
-func PostBookHandler(c *gin.Context) {
-  var bookInput book.BookRequest
-
-  err := c.ShouldBindJSON(&bookInput)
+  err := c.ShouldBindJSON(&bookRequest)
   if err != nil {
       errorMessages := []string{}
     for _, e := range err.(validator.ValidationErrors) {
@@ -58,8 +47,16 @@ func PostBookHandler(c *gin.Context) {
    return
   }
 
+  book, err := h.bookService.Create(bookRequest)
+
+  if err!= nil{
+     c.JSON(http.StatusBadRequest, gin.H{
+         "errors" : err,
+     })
+     return
+  }
+
   c.JSON(http.StatusOK, gin.H{
-    "title" : bookInput.Title,
-    "price" : bookInput.Price,
+    "data" : book,
   })
 }
